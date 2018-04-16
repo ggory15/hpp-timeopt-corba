@@ -29,14 +29,10 @@ Demo
 To see the planner in action, one example with DYROS-red is available.
 
   1. Run gepetto-gui
-     ```
-	gepetto-gui
-     ```
+     ``` $ gepetto-gui ```
 
   2. Run hpp-timeopt-corbaserver
-     	```
-	$ hpp-timeopt-server
-	```
+     	``` $ hpp-timeopt-server ```
 
   3. Run script in script folder
 	```
