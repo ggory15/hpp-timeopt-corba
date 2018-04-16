@@ -29,17 +29,17 @@ Demo
 To see the planner in action, one example with DYROS-red is available.
 
   1. Run gepetto-gui
-     	```bash
-	$ gepetto-gui
-	```
+     ```
+	gepetto-gui
+     ```
 
   2. Run hpp-timeopt-corbaserver
-     	```bash
+     	```
 	$ hpp-timeopt-server
 	```
 
   3. Run script in script folder
-	```bash
+	```
 	$ ipython demo.py
 	```
 
