@@ -34,28 +34,29 @@ class CorbaClient:
 #  AffordanceTool offers a set of helper functions that combines the affordance
 # analysis on the C++ side with visualisation tools. The objective is to make the
 # analysis tools more intuitive for the user.
-class COMPathTool (object):
+
+class TimeOpt (object):
     ## Constructor
     def __init__ (self):
         self.client = CorbaClient ()
     def setInitialBodyState (self):
         self.client.timeopt.problem.setInitialBodyState()
-    def setPlanner (self, cfg_path, default_path):
-            self.client.timeopt.problem.setPlanner(cfg_path, default_path)
+    def setTimeOptPlanner (self, cfg_path, default_path):
+        self.client.timeopt.problem.setTimeOptPlanner(cfg_path, default_path)
     def setInitialLimbState (self, limb_name, activation, ID, force_ration):
-            self.client.timeopt.problem.setInitialLimbState(limb_name, activation, ID, force_ration)
-    def setDesiredContactSequence(self):
-        self.client.timeopt.problem.setDesiredContactSequence()
-    def saveCOMPath(self):
-        self.client.timeopt.problem.saveCOMPath()
+        self.client.timeopt.problem.setInitialLimbState(limb_name, activation, ID, force_ration)
+    def addContactSequence(self, id, footstep):
+        self.client.timeopt.problem.addContactSequence(id, footstep)
+    def calculate(self):
+        self.client.timeopt.problem.calculate()
+    def setFianlBodyState(self, com):
+        self.client.timeopt.problem.setFianlBodyState(com)
     def loadObstacleModel(self, package, filename, prefix, Viewer, meshPackageName=None, guiOnly=False):
         Viewer.loadObstacleModel(package, filename, prefix, meshPackageName, guiOnly)
     def DrawFootStep(self, name, position, Viewer):
         Viewer.client.gui.addBox(name, 0.05, 0.05, 0.01, Viewer.color.blue)
         Viewer.client.gui.applyConfiguration(name, position)
         Viewer.client.gui.refresh()
-    def getNumContact(self):
-        return self.client.timeopt.problem.getNumContact();
     def getDesiredFootPosture(self, id_num, cnt):
             return self.client.timeopt.problem.getDesiredFootPos(id_num, cnt);
     def DrawDesiredContactSequence(self, viewer):

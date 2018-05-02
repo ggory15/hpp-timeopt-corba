@@ -106,7 +106,7 @@ INSTALL(
   )
 INSTALL(
   FILES
-  ${CMAKE_CURRENT_SOURCE_DIR}/hpp/corbaserver/timeopt/ComPath.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/hpp/corbaserver/timeopt/timeOptSolver.py
   DESTINATION ${PYTHON_SITELIB}/hpp/corbaserver/timeopt
   )
 

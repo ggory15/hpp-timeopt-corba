@@ -32,6 +32,7 @@ namespace hpp {
     typedef pinocchio::DevicePtr_t DevicePtr_t;
     typedef pinocchio::HumanoidRobotPtr_t HumanoidRobotPtr_t;
     typedef pinocchio::HumanoidRobot HumanoidRobot;
+    typedef core::Transform3f Transform3f;
 
     class Server;
   } // namespace wholebodyStep

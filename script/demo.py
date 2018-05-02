@@ -18,7 +18,7 @@ c1 = Client()
 robot = Robot ("red");
 ps = ProblemSolver (robot)
 
-from hpp.corbaserver.timeopt.ComPath import COMPathTool
+from hpp.corbaserver.timeopt.timeOptSolver import TimeOpt
 q_init = robot.getCurrentConfig ()
 
 q_init =  [-2.0, 0, 0.8, 0, 0, 0, 1,
@@ -36,35 +36,54 @@ from hpp.gepetto import Viewer
 r = Viewer (ps)
 r (q_init)
 
-com = COMPathTool ()
+solver = TimeOpt()
+
 from os import environ
 ins_dir = environ['DEVEL_HPP_DIR']
 db_dir = ins_dir+"/install/share/hpp-timeopt-corba/config/"
 
-com.setPlanner(db_dir+"cfg_momTr_demo01.yaml", db_dir+"default_solver_setting.yaml");
-#com.setPlanner(db_dir+"cfg_momSc_demo01.yaml", db_dir+"default_solver_setting.yaml");
-#com.setPlanner(db_dir+"cfg_timeopt_demo01.yaml", db_dir+"default_solver_setting.yaml");
-com.setInitialBodyState()
-#id num -> rf:0, lf:1, rh:2, lh:3
-com.setInitialLimbState("AnkleRoll_R_Joint", True, 0, [0,0,0.5]);
-com.setInitialLimbState("AnkleRoll_L_Joint", True, 1, [0,0,0.5]);
-com.setInitialLimbState("J_rwrist2", True, 2, [0,0,0.0]);
-com.setInitialLimbState("J_lwrist2", True, 3, [0,0,0.0]);
+'''Initialize solver'''
+solver.setTimeOptPlanner(db_dir+"cfg_momTr_demo01.yaml", db_dir+"default_solver_setting.yaml");
+#solver.setTimeOptPlanner(db_dir+"cfg_momSc_demo01.yaml", db_dir+"default_solver_setting.yaml");
+#solver.setTimeOptPlanner(db_dir+"cfg_timeopt_demo01.yaml", db_dir+"default_solver_setting.yaml");
 
-#setdesiredfoot
-com.setDesiredContactSequence();
+'''Set Initial State of Robot'''
+solver.setInitialBodyState()
+#id num -> rf:0, lf:1, rh:2, lh:3
+solver.setInitialLimbState("AnkleRoll_R_Joint", True, 0, [0,0,0.5]);
+solver.setInitialLimbState("AnkleRoll_L_Joint", True, 1, [0,0,0.5]);
+solver.setInitialLimbState("J_rwrist2", False, 2, [0,0,0.0]);
+solver.setInitialLimbState("J_lwrist2", False, 3, [0,0,0.0]);
+
+'''Set desired contact Sequence'''
+foot_rf = [(0.0, 1.0, -1.82, -0.021, 0.15, 1.0, 0.0, 0.0, 0.0, 1),
+		   (2.0, 4.5, -1.55, -0.500, 0.3, 1.0, 0.0, 0.0, 0.0, 1),
+		   (6.0, 9.9, -1.02, -0.450, 0.8, 1.0, 0.0, 0.0, 0.0, 1)]
+foot_lf = [(0.0, 2.5, -2.2, 0.17, 0.15, 1.0, 0.0, 0.0, 0.0, 1),
+		   (4.0, 6.5, -1.5, 0.17, 0.5, 1.0, 0.0, 0.0, 0.0, 1),
+		   (8.5, 9.9, -0.9, 0.17, 0.8, 1.0, 0.0, 0.0, 0.0, 1)]
+
+solver.addContactSequence(0, foot_rf);
+solver.addContactSequence(1, foot_lf);
+
+'''Set Final state'''
+solver.setFianlBodyState([-0.94, -0.2, 1.4]);
+
+'''Solve'''
+solver.calculate();
+
 
 #calculate and save COM path
-com.saveCOMPath();
+#solver.saveCOMPath();
 
 #draw COM Path
-com.DrawDesiredContactSequence(r);
-com.DrawCOMSphere(r);
+#com.DrawDesiredContactSequence(r);
+#com.DrawCOMSphere(r);
 
-import time
-for i in range(0, 95):
-    com.UpdateCOMDisplay(com.getresultCOMPos(i), r)
-    print(com.getresultCOMPos(i))
-    time.sleep(0.05)
+#import time
+#for i in range(0, 95):
+#    com.UpdateCOMDisplay(com.getresultCOMPos(i), r)
+#    print(com.getresultCOMPos(i))
+#    time.sleep(0.05)
 
 

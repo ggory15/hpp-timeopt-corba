@@ -28,79 +28,87 @@
 
 #include <hpp/corbaserver/conversions.hh>
 #include <hpp/corbaserver/timeopt/server.hh>
+#include <hpp/pinocchio/device.hh>
 
 #include <yaml-cpp/yaml.h>
-#include <hpp/pinocchio/center-of-mass-computation.hh>
-
-using hpp::pinocchio::CenterOfMassComputation;
+using namespace std;
 
 namespace hpp {
   namespace timeopt {
       namespace impl {
 
-      Problem::Problem () : server_ (0x0) {}
-      ProblemSolverPtr_t Problem::problemSolver ()
-      {
-        return server_->problemSolver ();
-      }
+        Problem::Problem () : server_ (0x0) {}
+        ProblemSolverPtr_t Problem::problemSolver (){
+            return server_->problemSolver ();
+        }
 
-      void Problem::setPlanner(const char* cfg_path, const char* default_path) throw(hpp::Error){
-          std::string cfg_string(cfg_path);
-          std::string default_string(default_path);
-          planner_setting_.initialize(cfg_string, default_string);
-      }
+        void Problem::setTimeOptPlanner(const char* cfg_path, const char* default_path) throw(hpp::Error){
+            std::string cfg_string(cfg_path);
+            std::string default_string(default_path);
+            planner_setting_.initialize(cfg_string, default_string);
+            contact_plan_.initialize(planner_setting_);
+            ref_sequence_.resize(planner_setting_.get(PlannerIntParam_NumTimesteps));
+        }        
+        void Problem::setInitialBodyState() throw(hpp::Error){
+            const DevicePtr_t& robot (problemSolver()->robot ());
+            dynamic_state_.fillInitialBodyState(robot);
+        }
+        void Problem::setInitialLimbState(const char* limb_name, CORBA::Boolean activation, CORBA::UShort ID, const hpp::floatSeq& force) throw(hpp::Error){
+            std::string name_string(limb_name);
+            dynamic_state_.fillInitialLimbState(problemSolver()->robot ()->getJointByName(name_string), ID, activation, hpp::corbaServer::floatSeqToVector3(force));
+        }
+        void Problem::addContactSequence(CORBA::UShort id, const hpp::floatSeqSeq& footstep) throw(hpp::Error){
+            std::size_t configsDim = (std::size_t)footstep.length();
 
-      void Problem::setInitialBodyState() throw(hpp::Error){
-          const DevicePtr_t& robot (problemSolver()->robot ());
-          dynamic_state_.fillInitialBodyState(robot);
-      }
-      void Problem::setInitialLimbState(const char* limb_name, CORBA::Boolean activation, CORBA::UShort ID, const hpp::floatSeq& force) throw(hpp::Error){
-          std::string name_string(limb_name);
-          dynamic_state_.fillInitialLimbState(problemSolver()->robot ()->getJointByName(name_string), activation, ID, hpp::corbaServer::floatSeqToVector3(force));
-       }
-      void Problem::setDesiredContactSequence() throw(hpp::Error){
-          contact_plan_.initialize(planner_setting_);
-          contact_plan_.optimize(dynamic_state_);
-      }
-      void Problem::saveCOMPath() throw(hpp::Error){          
-          DynamicsSequence ref_sequence;
-          ref_sequence.resize(planner_setting_.get(PlannerIntParam_NumTimesteps));
+            FootPrints_t footPrints;
+            vector_t foot(10);
 
-          dyn_optimizer_.initialize(planner_setting_, dynamic_state_, &contact_plan_);
-          dyn_optimizer_.optimize(ref_sequence);
-      }
-      hpp::intSeq* Problem::getNumContact() throw(hpp::Error){
-          hpp::intSeq* dofArray = new hpp::intSeq();
-          dofArray->length(4);
-          for (int i=0; i<4; i++)
-            (*dofArray)[i] = contact_plan_.endeffectorContacts()(i);
-          return dofArray;
-      }
-      hpp::floatSeq* Problem::getDesiredFootPos(CORBA::UShort id, CORBA::UShort cnt) throw(hpp::Error){
-          hpp::floatSeq* dofArray = new hpp::floatSeq();
-          dofArray->length(7);
-          //for (int i=0; i<3; i++)
-          //    (*dofArray)[i] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactPosition()[i];
+            for (_CORBA_ULong i = 0; i < configsDim; i++){
+                foot = hpp::corbaServer::floatSeqToVector(footstep[i], 10);
+                footPrints.push_back(FootPrint(foot(0), foot(1), vector3_t(foot(2), foot(3),  foot(4)), quaternion_t(foot(5), foot(6), foot(7), foot(8)), foot(9)));
+            }
 
-          (*dofArray)[0] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactPosition()[0];
-          (*dofArray)[1] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactPosition()[1];
-          (*dofArray)[2] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactPosition()[2];
-          (*dofArray)[3] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactOrientation().x();
-          (*dofArray)[4] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactOrientation().y();
-          (*dofArray)[5] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactOrientation().z();
-          (*dofArray)[6] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactOrientation().w();
+            ContactSet con(id, footPrints);
+            contact_plan_.addContact(con, dynamic_state_);
+        }
+        void Problem::setFianlBodyState(const hpp::floatSeq& com) throw(hpp::Error) {
+            dynamic_state_.setFinalcom(hpp::corbaServer::floatSeqToVector3(com)); 
+        }
+        void Problem::calculate() throw(hpp::Error){          
+            dyn_optimizer_.initialize(planner_setting_, dynamic_state_, &contact_plan_);
+            dyn_optimizer_.optimize(ref_sequence_);
+        }
 
-          return dofArray;
-      }
-      hpp::floatSeq* Problem::getCOMPos(CORBA::UShort cnt) throw(hpp::Error){
-          hpp::floatSeq* dofArray = new hpp::floatSeq();
-          dofArray->length(3);
+      /*  hpp::intSeq* Problem::getNumContact() throw(hpp::Error){
+            hpp::intSeq* dofArray = new hpp::intSeq();
+            dofArray->length(4);
+            for (int i=0; i<4; i++)
+                (*dofArray)[i] = contact_plan_.endeffectorContacts()(i);
+            return dofArray;
+        }*/
+       /* hpp::floatSeq* Problem::getDesiredFootPos(CORBA::UShort id, CORBA::UShort cnt) throw(hpp::Error){
+            hpp::floatSeq* dofArray = new hpp::floatSeq();
+            dofArray->length(7);
 
-          for (int i=0; i<3; i++)
-              (*dofArray)[i] = dyn_optimizer_.dynamicsSequence().dynamicsState(cnt).centerOfMass()(i);
+            (*dofArray)[0] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactPosition()[0];
+            (*dofArray)[1] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactPosition()[1];
+            (*dofArray)[2] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactPosition()[2];
+            (*dofArray)[3] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactOrientation().x();
+            (*dofArray)[4] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactOrientation().y();
+            (*dofArray)[5] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactOrientation().z();
+            (*dofArray)[6] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactOrientation().w();
 
-          return dofArray;
-      }
+            return dofArray;
+        }*/
+        hpp::floatSeq* Problem::getCOMPos(CORBA::UShort cnt) throw(hpp::Error){
+            hpp::floatSeq* dofArray = new hpp::floatSeq();
+            dofArray->length(3);
+
+            for (int i=0; i<3; i++)
+                (*dofArray)[i] = dyn_optimizer_.dynamicsSequence().dynamicsState(cnt).centerOfMass()(i);
+
+            return dofArray;
+        }
 
     } // namespace impl
   } // namespace wholebodyStep

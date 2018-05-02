@@ -23,8 +23,10 @@
 # include <omniORB4/CORBA.h>
 # include <hpp/corbaserver/timeopt/fwd.hh>
 # include <hpp/corbaserver/timeopt/problem.hh>
+
 # include <hpp/timeopt/momentumopt/dynopt/DynamicsOptimizer.hpp>
-# include <hpp/timeopt/momentumopt/cntopt/ContactPlanFromFile.hpp>
+# include <hpp/timeopt/momentumopt/cntopt/ContactPlanFromFootPrint.hpp>
+# include <hpp/timeopt/momentumopt/setting/Robot-state.hpp>
 
 namespace hpp {
   namespace timeopt {
@@ -34,14 +36,18 @@ namespace hpp {
       {
       public:
             Problem ();
-            void setPlanner(const char* cfg_path, const char* file_name) throw(hpp::Error);
+            void setTimeOptPlanner(const char* cfg_path, const char* file_name) throw(hpp::Error);
+            
             virtual void setInitialBodyState() throw (hpp::Error);
             virtual void setInitialLimbState(const char* limb_name, CORBA::Boolean activation, CORBA::UShort ID, const hpp::floatSeq& force) throw(hpp::Error);
-            virtual void setDesiredContactSequence() throw (hpp::Error);
-            virtual void saveCOMPath() throw (hpp::Error);
-            hpp::intSeq* getNumContact() throw (hpp::Error);
-            hpp::floatSeq* getDesiredFootPos(CORBA::UShort id, CORBA::UShort cnt) throw(hpp::Error);
+            virtual void addContactSequence(CORBA::UShort id, const hpp::floatSeqSeq& footstep) throw (hpp::Error);
+            virtual void calculate() throw (hpp::Error);
+            virtual void setFianlBodyState(const hpp::floatSeq& com) throw (hpp::Error);
+
+            //hpp::intSeq* getNumContact() throw (hpp::Error);
+            //hpp::floatSeq* getDesiredFootPos(CORBA::UShort id, CORBA::UShort cnt) throw(hpp::Error);
             hpp::floatSeq* getCOMPos(CORBA::UShort cnt) throw(hpp::Error);
+            
         void setServer (Server* server)
         {
           server_ = server;
@@ -50,8 +56,10 @@ namespace hpp {
         core::ProblemSolverPtr_t problemSolver();
         PlannerSetting planner_setting_;
         DynamicsState dynamic_state_;
-        ContactPlanFromFile contact_plan_;
+        DynamicsSequence ref_sequence_;
+        ContactPlanFromFootPrint contact_plan_;
         DynamicsOptimizer dyn_optimizer_;
+        RobotState* robot_;
         Server* server_;
       };
     } // namespace impl

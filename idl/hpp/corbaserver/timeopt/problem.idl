@@ -26,15 +26,20 @@ module hpp {
   module corbaserver {
   module timeopt {
   interface Problem {
+
+
+    void setTimeOptPlanner(in string cfg_path, in string default_path) raises (Error);
     void setInitialBodyState() raises (Error);
-    void setPlanner(in string cfg_path, in string default_path) raises (Error);
     void setInitialLimbState(in string joint_name, in boolean activation, in unsigned short ID, in floatSeq force_ratio) raises (Error);
-    void setDesiredContactSequence() raises (Error);
-    void saveCOMPath() raises (Error);
-    intSeq getNumContact() raises (Error);
-    floatSeq getDesiredFootPos(in unsigned short id, in unsigned short cnt) raises (Error);
+    void addContactSequence(in unsigned short id, in floatSeqSeq footstep) raises (Error);
+    void calculate() raises (Error);
+    void setFianlBodyState(in floatSeq com) raises (Error);
+
+  //  intSeq getNumContact() raises (Error);
+  //  floatSeq getDesiredFootPos(in unsigned short id, in unsigned short cnt) raises (Error);
     floatSeq getCOMPos(in unsigned short cnt) raises (Error);
 
+            
   }; //interface Problem
   }; // module timeopt
   }; // module corbaserver
