@@ -59,7 +59,7 @@ IF (NOT CLIENT_ONLY)
   ADD_DOC_DEPENDENCY ("hpp-core >= 3")
   ADD_REQUIRED_DEPENDENCY("hpp-timeopt")
   ADD_REQUIRED_DEPENDENCY("hpp-template-corba >= 1.1")
-  ADD_REQUIRED_DEPENDENCY("hpp-util >= 3.2")
+  ADD_REQUIRED_DEPENDENCY("hpp-util >= 3")
 ENDIF (NOT CLIENT_ONLY)
 
 # Make sure that python submodule is installed in the same prefix as module.
