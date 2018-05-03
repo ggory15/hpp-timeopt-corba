@@ -26,7 +26,6 @@
 
 # include <hpp/timeopt/momentumopt/dynopt/DynamicsOptimizer.hpp>
 # include <hpp/timeopt/momentumopt/cntopt/ContactPlanFromFootPrint.hpp>
-# include <hpp/timeopt/momentumopt/setting/Robot-state.hpp>
 
 namespace hpp {
   namespace timeopt {
@@ -59,7 +58,6 @@ namespace hpp {
         DynamicsSequence ref_sequence_;
         ContactPlanFromFootPrint contact_plan_;
         DynamicsOptimizer dyn_optimizer_;
-        RobotState* robot_;
         Server* server_;
       };
     } // namespace impl

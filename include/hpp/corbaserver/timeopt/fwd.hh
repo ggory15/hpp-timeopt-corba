@@ -29,9 +29,7 @@ namespace hpp {
     typedef core::ConfigProjectorPtr_t ConfigProjectorPtr_t;
     typedef core::Configuration_t Configuration_t;
     typedef core::ConfigurationPtr_t ConfigurationPtr_t;
-    typedef pinocchio::DevicePtr_t DevicePtr_t;
-    typedef pinocchio::HumanoidRobotPtr_t HumanoidRobotPtr_t;
-    typedef pinocchio::HumanoidRobot HumanoidRobot;
+    typedef model::DevicePtr_t DevicePtr_t;
     typedef core::Transform3f Transform3f;
 
     class Server;

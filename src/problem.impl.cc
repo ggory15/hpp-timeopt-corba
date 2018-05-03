@@ -25,8 +25,8 @@
 #include <hpp/core/config-projector.hh>
 #include <hpp/core/constraint-set.hh>
 #include <hpp/core/problem-solver.hh>
+#include <hpp/corbaserver/timeopt/conversion.hh>
 
-#include <hpp/corbaserver/conversions.hh>
 #include <hpp/corbaserver/timeopt/server.hh>
 #include <hpp/pinocchio/device.hh>
 

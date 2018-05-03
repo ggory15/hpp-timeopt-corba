@@ -35,6 +35,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -g -Wall -Wwrite-strings -ped
 SET(${PROJECT_NAME}_HEADERS
   include/hpp/corbaserver/timeopt/server.hh
   include/hpp/corbaserver/timeopt/fwd.hh
+  include/hpp/corbaserver/timeopt/conversion.hh
 )
 
 
@@ -51,7 +52,7 @@ ENDIF()
 
 # Search for dependencies.
 ADD_REQUIRED_DEPENDENCY("omniORB4 >= 4.1.4")
-ADD_REQUIRED_DEPENDENCY("hpp-corbaserver >= 4")
+ADD_REQUIRED_DEPENDENCY("hpp-corbaserver >= 3")
 ADD_REQUIRED_DEPENDENCY("eigen3 >= 3.0")
 ADD_REQUIRED_DEPENDENCY("yaml-cpp >= 0.5")
 

@@ -26,7 +26,7 @@ using namespace hpp::timeopt;
 int main (int argc, const char* argv[])
 {
   ProblemSolverPtr_t problemSolver = ProblemSolver::create ();
-  //problemSolver->pathOptimizers.add ("Walkgen", SmallSteps::create);
+  
   CorbaServer corbaServer (problemSolver, argc, argv, true);
   timeoptServer wpgServer (argc, argv, true);
   wpgServer.setProblemSolverMap (corbaServer.problemSolverMap());
@@ -38,9 +38,7 @@ int main (int argc, const char* argv[])
     hppDout (error, "Faile to start hpp-corbaserver");
   }
   try {
-    wpgServer.startCorbaServer (corbaServer.mainContextId(), "corbaserver",
-                "timeopt", "problem");
-
+    wpgServer.startCorbaServer ("hpp", "corbaserver",  "timeopt", "problem");
     hppDout (info, "Successfully started corba server for timeopt");
   } catch (const std::exception& exc) {
     hppDout (error, "failed to start corba server for timeopt");
