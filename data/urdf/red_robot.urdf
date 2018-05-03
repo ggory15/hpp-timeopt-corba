@@ -23,7 +23,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/Pelvis_link.stl" />
+          filename="package://red_description/meshes/Pelvis_link.stl" />
       </geometry>
       <material
         name="">
@@ -37,7 +37,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/Pelvis_link.stl" />
+          filename="package://red_description/meshes/Pelvis_link.stl" />
       </geometry>
     </collision>
   </link>
@@ -63,7 +63,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/HipRoll_R_link.stl" />
+          filename="package://red_description/meshes/HipRoll_R_link.stl" />
       </geometry>
       <material
         name="">
@@ -110,7 +110,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/HipCenter_R_Link.stl" />
+          filename="package://red_description/meshes/HipCenter_R_Link.stl" />
       </geometry>
       <material
         name="">
@@ -157,7 +157,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/Thigh_R_Link.stl" />
+          filename="package://red_description/meshes/Thigh_R_Link.stl" />
       </geometry>
       <material
         name="">
@@ -204,7 +204,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/Knee_R_Link.stl" />
+          filename="package://red_description/meshes/Knee_R_Link.stl" />
       </geometry>
       <material
         name="">
@@ -251,7 +251,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/AnkleCenter_R_Link.stl" />
+          filename="package://red_description/meshes/AnkleCenter_R_Link.stl" />
       </geometry>
       <material
         name="">
@@ -298,7 +298,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/AnkleRoll_R_Link.stl" />
+          filename="package://red_description/meshes/AnkleRoll_R_Link.stl" />
       </geometry>
       <material
         name="">
@@ -311,7 +311,7 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://hpp-wpgmpi-corba/meshes/AnkleRoll_R_Link.stl" scale="1 1 1"/>
+        <mesh filename="package://red_description/meshes/AnkleRoll_R_Link.stl" scale="1 1 1"/>
       </geometry>
     </collision>
   </link>
@@ -360,7 +360,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/HipRoll_L_Link.stl" />
+          filename="package://red_description/meshes/HipRoll_L_Link.stl" />
       </geometry>
       <material
         name="">
@@ -407,7 +407,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/HipCenter_L_Link.stl" />
+          filename="package://red_description/meshes/HipCenter_L_Link.stl" />
       </geometry>
       <material
         name="">
@@ -454,7 +454,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/Thigh_L_Link.stl" />
+          filename="package://red_description/meshes/Thigh_L_Link.stl" />
       </geometry>
       <material
         name="">
@@ -502,7 +502,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/Knee_L_Link.stl" />
+          filename="package://red_description/meshes/Knee_L_Link.stl" />
       </geometry>
       <material
         name="">
@@ -516,7 +516,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/Knee_L_Link.stl" />
+          filename="package://red_description/meshes/Knee_L_Link.stl" />
       </geometry>
     </collision>
   </link>
@@ -558,7 +558,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/AnkleCenter_L_Link.stl" />
+          filename="package://red_description/meshes/AnkleCenter_L_Link.stl" />
       </geometry>
       <material
         name="">
@@ -572,7 +572,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/AnkleCenter_L_Link.stl" />
+          filename="package://red_description/meshes/AnkleCenter_L_Link.stl" />
       </geometry>
     </collision>
   </link>
@@ -614,7 +614,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/AnkleRoll_L_Link.stl" />
+          filename="package://red_description/meshes/AnkleRoll_L_Link.stl" />
       </geometry>
       <material
         name="">
@@ -627,7 +627,7 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://hpp-wpgmpi-corba/meshes/AnkleRoll_L_Link.stl"/>
+        <mesh filename="package://red_description/meshes/AnkleRoll_L_Link.stl"/>
       </geometry>
     </collision>
   </link>
@@ -676,7 +676,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/waist1.stl" />
+          filename="package://red_description/meshes/waist1.stl" />
       </geometry>
       <material
         name="">
@@ -690,7 +690,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/waist1.stl" />
+          filename="package://red_description/meshes/waist1.stl" />
       </geometry>
     </collision>
   </link>
@@ -734,7 +734,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/waist2.stl" />
+          filename="package://red_description/meshes/waist2.stl" />
       </geometry>
       <material
         name="">
@@ -748,7 +748,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/waist2.stl" />
+          filename="package://red_description/meshes/waist2.stl" />
       </geometry>
     </collision>
   </link>
@@ -792,7 +792,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/upperbody.stl" />
+          filename="package://red_description/meshes/upperbody.stl" />
       </geometry>
       <material
         name="">
@@ -806,7 +806,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/upperbody.stl" />
+          filename="package://red_description/meshes/upperbody.stl" />
       </geometry>
     </collision>
   </link>
@@ -850,7 +850,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_shoulder1.stl" />
+          filename="package://red_description/meshes/R_shoulder1.stl" />
       </geometry>
       <material
         name="">
@@ -864,7 +864,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_shoulder1.stl" />
+          filename="package://red_description/meshes/R_shoulder1.stl" />
       </geometry>
     </collision>
   </link>
@@ -908,7 +908,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_shoulder2.stl" />
+          filename="package://red_description/meshes/R_shoulder2.stl" />
       </geometry>
       <material
         name="">
@@ -922,7 +922,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_shoulder2.stl" />
+          filename="package://red_description/meshes/R_shoulder2.stl" />
       </geometry>
     </collision>
   </link>
@@ -966,7 +966,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_shoulder3.stl" />
+          filename="package://red_description/meshes/R_shoulder3.stl" />
       </geometry>
       <material
         name="">
@@ -980,7 +980,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_shoulder3.stl" />
+          filename="package://red_description/meshes/R_shoulder3.stl" />
       </geometry>
     </collision>
   </link>
@@ -1024,7 +1024,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_arm.stl" />
+          filename="package://red_description/meshes/R_arm.stl" />
       </geometry>
       <material
         name="">
@@ -1038,7 +1038,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_arm.stl" />
+          filename="package://red_description/meshes/R_arm.stl" />
       </geometry>
     </collision>
   </link>
@@ -1082,7 +1082,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_elbow.stl" />
+          filename="package://red_description/meshes/R_elbow.stl" />
       </geometry>
       <material
         name="">
@@ -1096,7 +1096,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_elbow.stl" />
+          filename="package://red_description/meshes/R_elbow.stl" />
       </geometry>
     </collision>
   </link>
@@ -1140,7 +1140,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_forearm.stl" />
+          filename="package://red_description/meshes/R_forearm.stl" />
       </geometry>
       <material
         name="">
@@ -1154,7 +1154,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_forearm.stl" />
+          filename="package://red_description/meshes/R_forearm.stl" />
       </geometry>
     </collision>
   </link>
@@ -1198,7 +1198,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_wrist1.stl" />
+          filename="package://red_description/meshes/R_wrist1.stl" />
       </geometry>
       <material
         name="">
@@ -1212,7 +1212,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_wrist1.stl" />
+          filename="package://red_description/meshes/R_wrist1.stl" />
       </geometry>
     </collision>
   </link>
@@ -1256,7 +1256,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_wrist2.stl" />
+          filename="package://red_description/meshes/R_wrist2.stl" />
       </geometry>
       <material
         name="">
@@ -1270,7 +1270,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/R_wrist2.stl" />
+          filename="package://red_description/meshes/R_wrist2.stl" />
       </geometry>
     </collision>
   </link>
@@ -1314,7 +1314,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_shoulder1.stl" />
+          filename="package://red_description/meshes/L_shoulder1.stl" />
       </geometry>
       <material
         name="">
@@ -1328,7 +1328,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_shoulder1.stl" />
+          filename="package://red_description/meshes/L_shoulder1.stl" />
       </geometry>
     </collision>
   </link>
@@ -1372,7 +1372,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_shoulder2.stl" />
+          filename="package://red_description/meshes/L_shoulder2.stl" />
       </geometry>
       <material
         name="">
@@ -1386,7 +1386,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_shoulder2.stl" />
+          filename="package://red_description/meshes/L_shoulder2.stl" />
       </geometry>
     </collision>
   </link>
@@ -1430,7 +1430,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_shoulder3.stl" />
+          filename="package://red_description/meshes/L_shoulder3.stl" />
       </geometry>
       <material
         name="">
@@ -1444,7 +1444,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_shoulder3.stl" />
+          filename="package://red_description/meshes/L_shoulder3.stl" />
       </geometry>
     </collision>
   </link>
@@ -1488,7 +1488,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_arm.stl" />
+          filename="package://red_description/meshes/L_arm.stl" />
       </geometry>
       <material
         name="">
@@ -1502,7 +1502,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_arm.stl" />
+          filename="package://red_description/meshes/L_arm.stl" />
       </geometry>
     </collision>
   </link>
@@ -1546,7 +1546,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_elbow.stl" />
+          filename="package://red_description/meshes/L_elbow.stl" />
       </geometry>
       <material
         name="">
@@ -1560,7 +1560,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_elbow.stl" />
+          filename="package://red_description/meshes/L_elbow.stl" />
       </geometry>
     </collision>
   </link>
@@ -1604,7 +1604,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_forearm.stl" />
+          filename="package://red_description/meshes/L_forearm.stl" />
       </geometry>
       <material
         name="">
@@ -1618,7 +1618,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_forearm.stl" />
+          filename="package://red_description/meshes/L_forearm.stl" />
       </geometry>
     </collision>
   </link>
@@ -1662,7 +1662,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_wrist1.stl" />
+          filename="package://red_description/meshes/L_wrist1.stl" />
       </geometry>
       <material
         name="">
@@ -1676,7 +1676,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_wrist1.stl" />
+          filename="package://red_description/meshes/L_wrist1.stl" />
       </geometry>
     </collision>
   </link>
@@ -1720,7 +1720,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_wrist2.stl" />
+          filename="package://red_description/meshes/L_wrist2.stl" />
       </geometry>
       <material
         name="">
@@ -1734,7 +1734,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/L_wrist2.stl" />
+          filename="package://red_description/meshes/L_wrist2.stl" />
       </geometry>
     </collision>
   </link>
@@ -1778,7 +1778,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/neck.stl" />
+          filename="package://red_description/meshes/neck.stl" />
       </geometry>
       <material
         name="">
@@ -1792,7 +1792,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/neck.stl" />
+          filename="package://red_description/meshes/neck.stl" />
       </geometry>
     </collision>
   </link>
@@ -1836,7 +1836,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/head.stl" />
+          filename="package://red_description/meshes/head.stl" />
       </geometry>
       <material
         name="">
@@ -1850,7 +1850,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://hpp-wpgmpi-corba/meshes/head.stl" />
+          filename="package://red_description/meshes/head.stl" />
       </geometry>
     </collision>
   </link>
