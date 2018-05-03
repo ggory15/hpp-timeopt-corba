@@ -44,10 +44,10 @@ namespace hpp {
             virtual void calculate() throw (hpp::Error);
             virtual void setFianlBodyState(const hpp::floatSeq& com) throw (hpp::Error);
 
-            //hpp::intSeq* getNumContact() throw (hpp::Error);
-            //hpp::floatSeq* getDesiredFootPos(CORBA::UShort id, CORBA::UShort cnt) throw(hpp::Error);
-            hpp::floatSeq* getCOMPos(CORBA::UShort cnt) throw(hpp::Error);
-            
+            CORBA::UShort getNumSeqeunce() throw (hpp::Error);
+            hpp::floatSeq* getResultantBodyDynamics(CORBA::UShort cnt) throw(hpp::Error);
+            hpp::floatSeq* getResultantLimbDynamics(CORBA::UShort cnt, CORBA::UShort id) throw(hpp::Error);
+
         void setServer (Server* server)
         {
           server_ = server;

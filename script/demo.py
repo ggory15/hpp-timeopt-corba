@@ -43,9 +43,9 @@ ins_dir = environ['DEVEL_HPP_DIR']
 db_dir = ins_dir+"/install/share/hpp-timeopt-corba/config/"
 
 '''Initialize solver'''
-solver.setTimeOptPlanner(db_dir+"cfg_momTr_demo01.yaml", db_dir+"default_solver_setting.yaml");
+#solver.setTimeOptPlanner(db_dir+"cfg_momTr_demo01.yaml", db_dir+"default_solver_setting.yaml");
 #solver.setTimeOptPlanner(db_dir+"cfg_momSc_demo01.yaml", db_dir+"default_solver_setting.yaml");
-#solver.setTimeOptPlanner(db_dir+"cfg_timeopt_demo01.yaml", db_dir+"default_solver_setting.yaml");
+solver.setTimeOptPlanner(db_dir+"cfg_timeopt_demo01.yaml", db_dir+"default_solver_setting.yaml");
 
 '''Set Initial State of Robot'''
 solver.setInitialBodyState()
@@ -71,19 +71,19 @@ solver.setFianlBodyState([-0.94, -0.2, 1.4]);
 
 '''Solve'''
 solver.calculate();
+# if you want to show the result,
+# [time, com, linearmomentum, angularmomentum] = solver.getResultantBodyDynamics(cnt);
+# [ee's force, ee's torque, ee's cop] = solver.getResultantLimbDynamics(cnt, ee's id);
 
-
-#calculate and save COM path
-#solver.saveCOMPath();
-
-#draw COM Path
-#com.DrawDesiredContactSequence(r);
-#com.DrawCOMSphere(r);
-
-#import time
-#for i in range(0, 95):
-#    com.UpdateCOMDisplay(com.getresultCOMPos(i), r)
-#    print(com.getresultCOMPos(i))
-#    time.sleep(0.05)
+'''Draw COM'''
+solver.DrawCOMSphere(r)
+current_time = 0.0;
+import time
+for i in range(0, solver.getNumSeqeunce()):
+	(tick, com, lm, am) = solver.getResultantBodyDynamics(i)
+	solver.UpdateCOMDisplay(com, r)
+	current_time = current_time+ tick
+	print('time', round(current_time,1), 'com', com)
+	time.sleep(tick / 2.0) # for draw
 
 

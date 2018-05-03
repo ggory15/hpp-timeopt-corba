@@ -57,14 +57,19 @@ class TimeOpt (object):
         Viewer.client.gui.addBox(name, 0.05, 0.05, 0.01, Viewer.color.blue)
         Viewer.client.gui.applyConfiguration(name, position)
         Viewer.client.gui.refresh()
-    def getDesiredFootPosture(self, id_num, cnt):
-            return self.client.timeopt.problem.getDesiredFootPos(id_num, cnt);
     def DrawDesiredContactSequence(self, viewer):
         for id_num in range(0, 4):
             for cnt_num in range(0, self.getNumContact()[id_num]):
                 self.DrawFootStep("red/" + "foot" + str(id_num) + str(cnt_num), self.getDesiredFootPosture(id_num, cnt_num), viewer)
-    def getresultCOMPos(self, cnt):
-            return self.client.timeopt.problem.getCOMPos(cnt);
+    def getNumSeqeunce(self):
+        return self.client.timeopt.problem.getNumSeqeunce()
+    
+    def getResultantBodyDynamics(self, cnt):
+        A = self.client.timeopt.problem.getResultantBodyDynamics(cnt)
+        return (A[0], A[1:4], A[4:7], A[7:10])
+    def getResultantLimbDynamics(self, cnt):
+        A = self.client.timeopt.problem.getResultantLimbDynamics(cnt)
+        return (A[0:3], A[3:6], A[6:9])       
     def DrawCOMSphere(self, Viewer):
         Viewer.client.gui.addSphere("red/COM", 0.03, Viewer.color.green)
         Viewer.client.gui.applyConfiguration("red/COM", [0, 0, 0, 1, 0, 0, 0])

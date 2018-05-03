@@ -78,34 +78,37 @@ namespace hpp {
             dyn_optimizer_.initialize(planner_setting_, dynamic_state_, &contact_plan_);
             dyn_optimizer_.optimize(ref_sequence_);
         }
-
-      /*  hpp::intSeq* Problem::getNumContact() throw(hpp::Error){
-            hpp::intSeq* dofArray = new hpp::intSeq();
-            dofArray->length(4);
-            for (int i=0; i<4; i++)
-                (*dofArray)[i] = contact_plan_.endeffectorContacts()(i);
-            return dofArray;
-        }*/
-       /* hpp::floatSeq* Problem::getDesiredFootPos(CORBA::UShort id, CORBA::UShort cnt) throw(hpp::Error){
+        CORBA::UShort Problem::getNumSeqeunce() throw(hpp::Error){
+            return planner_setting_.get(PlannerIntParam_NumTimesteps);
+        }
+        hpp::floatSeq* Problem::getResultantBodyDynamics(CORBA::UShort cnt) throw(hpp::Error){
+            // time(1), reference com(3), linear(3), angular momentum(3);
+            if (cnt > this->getNumSeqeunce())
+                throw std::runtime_error ("The total sequence is smaller than time_id");
+            
             hpp::floatSeq* dofArray = new hpp::floatSeq();
-            dofArray->length(7);
+            dofArray->length(10);
 
-            (*dofArray)[0] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactPosition()[0];
-            (*dofArray)[1] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactPosition()[1];
-            (*dofArray)[2] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactPosition()[2];
-            (*dofArray)[3] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactOrientation().x();
-            (*dofArray)[4] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactOrientation().y();
-            (*dofArray)[5] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactOrientation().z();
-            (*dofArray)[6] = contact_plan_.contactSequence().endeffectorContacts(id)[cnt].contactOrientation().w();
-
+            (*dofArray)[0] = dyn_optimizer_.dynamicsSequence().dynamicsState(cnt).time();
+            for (int i=0; i<3; i++)
+                (*dofArray)[i+1] = dyn_optimizer_.dynamicsSequence().dynamicsState(cnt).centerOfMass()(i);
+            for (int i=0; i<3; i++)
+                (*dofArray)[i+4] = dyn_optimizer_.dynamicsSequence().dynamicsState(cnt).linearMomentum()(i);
+            for (int i=0; i<3; i++)
+                (*dofArray)[i+7] = dyn_optimizer_.dynamicsSequence().dynamicsState(cnt).angularMomentum()(i);
+            
             return dofArray;
-        }*/
-        hpp::floatSeq* Problem::getCOMPos(CORBA::UShort cnt) throw(hpp::Error){
+        }
+        hpp::floatSeq* Problem::getResultantLimbDynamics(CORBA::UShort cnt, CORBA::UShort id) throw(hpp::Error){
             hpp::floatSeq* dofArray = new hpp::floatSeq();
-            dofArray->length(3);
+            dofArray->length(9);
 
             for (int i=0; i<3; i++)
-                (*dofArray)[i] = dyn_optimizer_.dynamicsSequence().dynamicsState(cnt).centerOfMass()(i);
+                (*dofArray)[i] = dyn_optimizer_.dynamicsSequence().dynamicsState(cnt).endeffectorForce(id)(i);
+            for (int i=0; i<3; i++)
+                (*dofArray)[i+3] = dyn_optimizer_.dynamicsSequence().dynamicsState(cnt).endeffectorTorque(id)(i);
+            for (int i=0; i<3; i++)
+                (*dofArray)[i+6] = dyn_optimizer_.dynamicsSequence().dynamicsState(cnt).endeffectorCoP(id)(i);                                
 
             return dofArray;
         }

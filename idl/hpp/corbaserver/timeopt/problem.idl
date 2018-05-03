@@ -35,9 +35,9 @@ module hpp {
     void calculate() raises (Error);
     void setFianlBodyState(in floatSeq com) raises (Error);
 
-  //  intSeq getNumContact() raises (Error);
-  //  floatSeq getDesiredFootPos(in unsigned short id, in unsigned short cnt) raises (Error);
-    floatSeq getCOMPos(in unsigned short cnt) raises (Error);
+    unsigned short getNumSeqeunce() raises (Error);
+    floatSeq getResultantBodyDynamics(in unsigned short cnt) raises (Error);
+    floatSeq getResultantLimbDynamics(in unsigned short cnt, in unsigned short id) raises (Error);
 
             
   }; //interface Problem
