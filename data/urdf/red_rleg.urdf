@@ -1,9 +1,9 @@
-<robot name="chair">
+<robot name="red_rleg">
   <link name="base_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://hpp-timeopt-corba/meshes/darpareduced.stl"/>
+        <mesh filename="package://hpp-timeopt-corba/meshes/red/red_rleg.stl"/>
       </geometry>
       <material name="white">
         <color rgba="1 1 1 1"/>
@@ -12,7 +12,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://hpp-timeopt-corba/meshes/darpareduced.stl"/>
+        <mesh filename="package://hpp-timeopt-corba/meshes/red/red_rleg.stl"/>
       </geometry>
     </collision>
   </link>

@@ -38,8 +38,6 @@ SET(${PROJECT_NAME}_HEADERS
   include/hpp/corbaserver/timeopt/conversion.hh
 )
 
-
-
 SET(CUSTOM_HEADER_DIR hpp/corbaserver/timeopt)
 
 SETUP_PROJECT()
@@ -55,6 +53,8 @@ ADD_REQUIRED_DEPENDENCY("omniORB4 >= 4.1.4")
 ADD_REQUIRED_DEPENDENCY("hpp-corbaserver >= 3")
 ADD_REQUIRED_DEPENDENCY("eigen3 >= 3.0")
 ADD_REQUIRED_DEPENDENCY("yaml-cpp >= 0.5")
+ADD_REQUIRED_DEPENDENCY("hpp-rbprm-corba")
+ADD_REQUIRED_DEPENDENCY("hpp-affordance-corba")
 
 IF (NOT CLIENT_ONLY)
   ADD_DOC_DEPENDENCY ("hpp-core >= 3")
@@ -85,11 +85,18 @@ install(FILES
   )
 install(FILES
   data/urdf/red_robot.urdf
+  data/urdf/red_lleg.urdf
+  data/urdf/red_rleg.urdf
+  data/urdf/red_trunk.urdf
   data/urdf/darpa.urdf
+
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/urdf
   )
 install(FILES
   data/srdf/red_robot.srdf
+  data/srdf/red_lleg.srdf
+  data/srdf/red_rleg.srdf
+  data/srdf/red_trunk.srdf
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/srdf
   )
 install(FILES
@@ -124,12 +131,22 @@ install(FILES
 	data/meshes/R_wrist1.stl
 	data/meshes/R_wrist2.stl
 	data/meshes/Thigh_L_Link.stl
-        data/meshes/Thigh_R_Link.stl
-        data/meshes/upperbody.stl
+  data/meshes/Thigh_R_Link.stl
+  data/meshes/upperbody.stl
 	data/meshes/waist1.stl
 	data/meshes/waist2.stl
+    
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/meshes	
   )
+  install(FILES
+	data/meshes/red/red_lleg.stl
+	data/meshes/red/red_rleg.stl
+	data/meshes/red/red_whole.stl
+	data/meshes/red/trunk.stl
+	DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/meshes/red
+  )  
+
+
 install(FILES
   config/cfg_momSc_demo01.yaml
   config/cfg_momTr_demo01.yaml

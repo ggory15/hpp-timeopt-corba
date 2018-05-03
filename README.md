@@ -1,10 +1,12 @@
 Copyright 2018 LAAS-CNRS
 
-
-
 # HPP-timeopt-corba
 
 This is module to implement python bindings for hpp-timeoptimization(https://github.com/ggroy15/hpp-timeoptimization), and presents a example file. 
+
+Branch
+----
+This branch is to use the contact sequences from rbprm-module (https://github.com/stonneau/hpp-rbprm-corba)
 
 Install
 ----
@@ -38,5 +40,8 @@ To see the planner in action, one example with DYROS-red is available.
 	```
 	$ ipython demo.py
 	```
+
+  4. (otherwise)
+     ``` $ run.sh demo_using_rbprm.py ```
 
 
