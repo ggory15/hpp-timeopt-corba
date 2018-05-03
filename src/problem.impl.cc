@@ -28,7 +28,6 @@
 #include <hpp/corbaserver/timeopt/conversion.hh>
 
 #include <hpp/corbaserver/timeopt/server.hh>
-#include <hpp/pinocchio/device.hh>
 
 #include <yaml-cpp/yaml.h>
 using namespace std;
