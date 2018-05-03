@@ -60,7 +60,7 @@ class TimeOpt (object):
     def DrawDesiredContactSequence(self, viewer):
         for id_num in range(0, 4):
             for cnt_num in range(0, self.getNumContact()[id_num]):
-                self.DrawFootStep("red/" + "foot" + str(id_num) + str(cnt_num), self.getDesiredFootPosture(id_num, cnt_num), viewer)
+                self.DrawFootStep("0_scene_hpp_/" + "foot" + str(id_num) + str(cnt_num), self.getDesiredFootPosture(id_num, cnt_num), viewer)
     def getNumSeqeunce(self):
         return self.client.timeopt.problem.getNumSeqeunce()
     
@@ -71,11 +71,11 @@ class TimeOpt (object):
         A = self.client.timeopt.problem.getResultantLimbDynamics(cnt)
         return (A[0:3], A[3:6], A[6:9])       
     def DrawCOMSphere(self, Viewer):
-        Viewer.client.gui.addSphere("red/COM", 0.03, Viewer.color.green)
-        Viewer.client.gui.applyConfiguration("red/COM", [0, 0, 0, 1, 0, 0, 0])
+        Viewer.client.gui.addSphere("0_scene_hpp_/COM", 0.03, Viewer.color.green)
+        Viewer.client.gui.applyConfiguration("0_scene_hpp_/COM", [0, 0, 0, 1, 0, 0, 0])
         Viewer.client.gui.refresh()
     def UpdateCOMDisplay(self, pos, Viewer):
-        Viewer.client.gui.applyConfiguration("red/COM", [pos[0], pos[1], pos[2], 1, 0, 0, 0])
+        Viewer.client.gui.applyConfiguration("0_scene_hpp_/COM", [pos[0], pos[1], pos[2], 1, 0, 0, 0])
         Viewer.client.gui.refresh()
 
 
