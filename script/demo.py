@@ -4,7 +4,7 @@ from hpp.corbaserver import ProblemSolver
 
 class Robot (Parent):
 	rootJointType = 'freeflyer'
-	packageName = 'hpp-timeopt-corba'
+	packageName = 'red_description'
 	# URDF file describing the trunk of the robot HyQ
 	urdfName = 'red_robot'
 	urdfSuffix = ""
