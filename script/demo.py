@@ -4,7 +4,7 @@ from hpp.corbaserver import ProblemSolver
 
 class Robot (Parent):
 	rootJointType = 'freeflyer'
-	packageName = 'red_description'
+	packageName = 'hpp-timeopt-corba'
 	urdfName = 'red_robot'
 	urdfSuffix = ""
 	srdfSuffix = ""
@@ -72,6 +72,7 @@ solver.setFianlBodyState([-0.94, -0.2, 1.4]);
 
 '''Solve'''
 solver.calculate();
+
 # if you want to show the result,
 # [time, com, linearmomentum, angularmomentum] = solver.getResultantBodyDynamics(cnt);
 # [ee's force, ee's torque, ee's cop] = solver.getResultantLimbDynamics(cnt, ee's id);
@@ -90,3 +91,5 @@ def drawPath():
 def a():
 	print "Draw Com Path"
 	drawPath()
+
+a()
