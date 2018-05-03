@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>red_description</name>
+  <name>hpp-timeopt-corba</name>
   <version>0.0.0</version>
   <description>The dyros_red_description package</description>
 
