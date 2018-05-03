@@ -6,7 +6,6 @@ from hpp.gepetto import Viewer
 
 #calling script darpa_hyq_path to compute root path
 import config as tp
-
 from hpp.corbaserver import Client
 
 
@@ -67,8 +66,6 @@ q_goal = fullBody.getCurrentConfig(); q_goal[0:7] = tp.q_goal[0:7]
 
 #q_init = q_goal;
 q_init[0:7] = tp.q_init[0:7]
-q_init[22:30] = [-0.9, 0.6, 0.6, 0.5, 1.5, 0, 0, 0];
-q_init[32:40] = [-0.9, 0.6, -0.6, 0.5, 1.5, 0, 0, 0];
 q_init[22:30] = [0.1754, 0.4363, 1.2453, -1.3963, -2.6180, 0, 0, 0];
 q_init[32:40] = [-0.1754, -0.4363, -1.7453, 1.3963, 2.6180, 0, 0, 0];
 
@@ -94,66 +91,27 @@ fullBody.setEndState(q_goal,[rLegId,lLegId])
 r(q_init)
 configs = []
 
+
 from hpp.gepetto import PathPlayer
 pp = PathPlayer (fullBody.client.basic, r)
 
 from hpp.corbaserver.timeopt.timeOptSolver import TimeOpt
 from os import environ
+import numpy as np
 
 solver = TimeOpt()
 ins_dir = environ['DEVEL_DIR']
 db_dir = ins_dir+"/install/share/hpp-timeopt-corba/config/"
 
 '''Initialize solver'''
-solver.setTimeOptPlanner(db_dir+"cfg_momTr_demo01.yaml", db_dir+"default_solver_setting.yaml");
+#solver.setTimeOptPlanner(db_dir+"cfg_momTr_demo01.yaml", db_dir+"default_solver_setting.yaml");
 #solver.setTimeOptPlanner(db_dir+"cfg_momSc_demo01.yaml", db_dir+"default_solver_setting.yaml");
-#solver.setTimeOptPlanner(db_dir+"cfg_timeopt_demo01.yaml", db_dir+"default_solver_setting.yaml");
+solver.setTimeOptPlanner(db_dir+"cfg_timeopt_demo01.yaml", db_dir+"default_solver_setting.yaml");
 
-'''Set Initial State of Robot'''
-solver.setInitialBodyState()
-
-#id num -> rf:0, lf:1, rh:2, lh:3
-solver.setInitialLimbState("AnkleRoll_R_Joint", True, 0, [0,0,0.5]);
-solver.setInitialLimbState("AnkleRoll_L_Joint", True, 1, [0,0,0.5]);
-solver.setInitialLimbState("J_rwrist2", False, 2, [0,0,0.0]);
-solver.setInitialLimbState("J_lwrist2", False, 3, [0,0,0.0]);
-
-
-'''Set desired contact Sequence'''
-foot_rf = [(0.0, 1.0, -1.82, -0.021, 0.15, 1.0, 0.0, 0.0, 0.0, 1),
-		   (2.0, 4.5, -1.55, -0.500, 0.3, 1.0, 0.0, 0.0, 0.0, 1),
-		   (6.0, 9.9, -1.02, -0.450, 0.8, 1.0, 0.0, 0.0, 0.0, 1)]
-foot_lf = [(0.0, 2.5, -2.2, 0.17, 0.15, 1.0, 0.0, 0.0, 0.0, 1),
-		   (4.0, 6.5, -1.5, 0.17, 0.5, 1.0, 0.0, 0.0, 0.0, 1),
-		   (8.5, 9.9, -0.9, 0.17, 0.8, 1.0, 0.0, 0.0, 0.0, 1)]
-
-solver.addContactSequence(0, foot_rf);
-solver.addContactSequence(1, foot_lf);
-
-'''Set Final state'''
-solver.setFianlBodyState([-0.94, -0.2, 1.4]);
-
-'''Solve'''
-solver.calculate();
-
-# if you want to show the result,
-# [time, com, linearmomentum, angularmomentum] = solver.getResultantBodyDynamics(cnt);
-# [ee's force, ee's torque, ee's cop] = solver.getResultantLimbDynamics(cnt, ee's id);
 '''Draw COM'''
 solver.DrawCOMSphere(r)
 
 import time
-def drawPath():
-	current_time = 0.0;
-	for i in range(0, solver.getNumSeqeunce()):
-		(tick, com, lm, am) = solver.getResultantBodyDynamics(i)
-		solver.UpdateCOMDisplay(com, r)
-		current_time = current_time+ tick
-		print('time', round(current_time, 1), 'com', com)
-		time.sleep(tick / 2.0) # for draw
-
-import time
-
 #DEMO METHODS
 
 def initConfig():
@@ -192,15 +150,73 @@ def genPlan():
 	#configs = fullBody.interpolate(0.12, 10, 10, True)
 	end = time.clock()
 	print "Contact plan generated in " + str(end-start) + "seconds"
+def setInitConfigure():
+    fullBody.setCurrentConfig(configs[0])
 
 def contactPlan():
 	r.client.gui.setVisibility("red_robot", "ON")
 	tp.cl.problem.selectProblem("default")
 	tp.r.client.gui.setVisibility("toto", "OFF")
 	tp.r.client.gui.setVisibility("red_trunk", "OFF")
-	for i in range(1,len(configs)):
-		r(configs[i]);
-		time.sleep(0.1)
+	for i in range(0,5):
+         r(configs[i]);
+         time.sleep(0.5);
+
+def calculateUsingTimeOpt():
+    setInitConfigure()
+    solver.setInitialBodyState()
+    solver.setInitialLimbState("AnkleRoll_R_Joint", True, 0, [0, 0, 0.5]);
+    solver.setInitialLimbState("AnkleRoll_L_Joint", True, 1, [0, 0, 0.5]);
+    solver.setInitialLimbState("J_rwrist2", False, 2, [0, 0, 0.0]);
+    solver.setInitialLimbState("J_lwrist2", False, 3, [0, 0, 0.0]);
+
+    ''' At this time, this demo try to generate COM trajectory using only three sequences'''
+    ## to do
+    s = (3, 10)
+    global foot_rf
+    global foot_lf
+    foot_rf = np.zeros(s)
+    foot_lf = np.zeros(s)
+
+    foot_rf[0][0:2] = [0.0, 1.0]; #start time, end time
+    foot_rf[1][0:2] = [2.0, 4.5];
+    foot_rf[2][0:2] = [6.0, 9.9];
+
+    foot_lf[0][0:2] = [0.0, 2.5];
+    foot_lf[1][0:2] = [4.0, 6.5];
+    foot_lf[2][0:2] = [8.5, 9.9];
+
+    for i in range(0, 3):
+        foot_rf[i][9] = 1 # contact type
+        foot_lf[i][9] = 1
+        [R, t] = solver.getEndeffectorTransform("AnkleRoll_R_Joint", configs[i*2])
+        foot_rf[i][2:5] = t
+        foot_rf[i][5:9] = solver.rot2quat(R)
+        [R, t] = solver.getEndeffectorTransform("AnkleRoll_L_Joint", configs[i*2+1])
+        foot_lf[i][2:5] = t
+        foot_lf[i][5:9] = solver.rot2quat(R)
+
+    solver.addContactSequence(0, foot_rf.tolist());
+    solver.addContactSequence(1, foot_lf.tolist());
+    solver.DrawDesiredContactSequence(r, 0, foot_rf)
+    solver.DrawDesiredContactSequence(r, 1, foot_lf)
+    '''Set Final state'''
+    solver.setFinalBodyStatfromConfig(configs[5])
+    '''Solve'''
+    solver.calculate();
+
+def drawPath():
+	# if you want to show the result,
+	# [time, com, linearmomentum, angularmomentum] = solver.getResultantBodyDynamics(cnt);
+	# [ee's force, ee's torque, ee's cop] = solver.getResultantLimbDynamics(cnt, ee's id);
+	current_time = 0.0;
+	for i in range(0, solver.getNumSeqeunce()):
+		(tick, com, lm, am) = solver.getResultantBodyDynamics(i)
+		solver.UpdateCOMDisplay(com, r)
+		current_time = current_time+ tick
+		#print('time', round(current_time, 1), 'com', com)
+		time.sleep(tick / 2.0) # for draw
+
 
 def a():
 	print "initial configuration"
@@ -222,8 +238,13 @@ def e():
 	print "displaying contact plan"
 	contactPlan()
 def f():
-	print "Draw Com Path"
+	print "computing COM trajectory using time optimization"
+	calculateUsingTimeOpt()
+
+def g():
+	print "draw COM"
 	drawPath()
 
 print "Root path generated in " + str(tp.t) + " ms."
-
+d()
+f()

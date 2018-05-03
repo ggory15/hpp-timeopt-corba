@@ -43,7 +43,7 @@ r = Viewer (ps)
 q_init = rbprmBuilder.getCurrentConfig ();
 q_init [0:3] = [-2, -0.3, 0.8]; rbprmBuilder.setCurrentConfig (q_init); r (q_init)
 q_goal = q_init [::]
-q_goal [0:3] = [-1, -0.0, 0.8]; rbprmBuilder.setCurrentConfig (q_goal); r (q_goal)
+q_goal [0:3] = [-1.0, -0.0, 0.8]; rbprmBuilder.setCurrentConfig (q_goal); r (q_goal)
 
 # Choosing a path optimizer
 ps.addPathOptimizer("RandomShortcut")

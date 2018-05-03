@@ -41,11 +41,14 @@ namespace hpp {
             virtual void setInitialLimbState(const char* limb_name, CORBA::Boolean activation, CORBA::UShort ID, const hpp::floatSeq& force) throw(hpp::Error);
             virtual void addContactSequence(CORBA::UShort id, const hpp::floatSeqSeq& footstep) throw (hpp::Error);
             virtual void calculate() throw (hpp::Error);
-            virtual void setFianlBodyState(const hpp::floatSeq& com) throw (hpp::Error);
+            virtual void setFinalBodyState(const hpp::floatSeq& com) throw (hpp::Error);
+            virtual void setFinalBodyStatfromConfig(const hpp::floatSeq& configuration) throw (hpp::Error);
 
             CORBA::UShort getNumSeqeunce() throw (hpp::Error);
             hpp::floatSeq* getResultantBodyDynamics(CORBA::UShort cnt) throw(hpp::Error);
             hpp::floatSeq* getResultantLimbDynamics(CORBA::UShort cnt, CORBA::UShort id) throw(hpp::Error);
+            hpp::floatSeq* getComFromRobot(const hpp::floatSeq& configuration) throw(hpp::Error);
+            hpp::floatSeq* getEndeffectorTransform(const char* limb_name, const floatSeq& configuration) throw(hpp::Error);
 
         void setServer (Server* server)
         {

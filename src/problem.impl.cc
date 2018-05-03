@@ -29,6 +29,14 @@
 
 #include <hpp/corbaserver/timeopt/server.hh>
 
+#include <hpp/model/joint.hh>
+#include <hpp/model/device.hh>
+#include <hpp/model/urdf/util.hh>
+#include <hpp/model/center-of-mass-computation.hh>
+
+using hpp::model::DevicePtr_t;
+using hpp::model::JointPtr_t;
+
 #include <yaml-cpp/yaml.h>
 using namespace std;
 
@@ -52,6 +60,32 @@ namespace hpp {
             const DevicePtr_t& robot (problemSolver()->robot ());
             dynamic_state_.fillInitialBodyState(robot);
         }
+        hpp::floatSeq* Problem::getEndeffectorTransform(const char* limb_name, const floatSeq& configuration) throw(hpp::Error){
+            std::string name_string(limb_name);
+            std::size_t Dim = (std::size_t)configuration.length();
+            vector_t posture(Dim);
+            posture = hpp::corbaServer::floatSeqToVector(configuration, Dim);
+
+            const DevicePtr_t& robot (problemSolver()->robot ());
+            robot->currentConfiguration(posture);
+            robot->computeForwardKinematics();
+            Transform3f tf = robot->getJointByName(name_string)->currentTransformation();
+
+            hpp::floatSeq* dofArray = new hpp::floatSeq();
+            dofArray->length(12);
+
+            for (int i=0; i<3; i++)
+                (*dofArray)[i] = tf.getRotation()(0, i);
+            for (int i=0; i<3; i++)
+                (*dofArray)[i+3] = tf.getRotation()(1, i);
+            for (int i=0; i<3; i++)
+                (*dofArray)[i+6] = tf.getRotation()(2, i);     
+            for (int i=0; i<3; i++)
+                (*dofArray)[i+9] = tf.getTranslation()(i);                                
+
+            return dofArray;
+        }
+
         void Problem::setInitialLimbState(const char* limb_name, CORBA::Boolean activation, CORBA::UShort ID, const hpp::floatSeq& force) throw(hpp::Error){
             std::string name_string(limb_name);
             dynamic_state_.fillInitialLimbState(problemSolver()->robot ()->getJointByName(name_string), ID, activation, hpp::corbaServer::floatSeqToVector3(force));
@@ -70,8 +104,18 @@ namespace hpp {
             ContactSet con(id, footPrints);
             contact_plan_.addContact(con, dynamic_state_);
         }
-        void Problem::setFianlBodyState(const hpp::floatSeq& com) throw(hpp::Error) {
+        void Problem::setFinalBodyState(const hpp::floatSeq& com) throw(hpp::Error) {
             dynamic_state_.setFinalcom(hpp::corbaServer::floatSeqToVector3(com)); 
+        }
+        void Problem::setFinalBodyStatfromConfig(const hpp::floatSeq& configuration) throw(hpp::Error){
+            std::size_t Dim = (std::size_t)configuration.length();
+            vector_t posture(Dim);
+            posture = hpp::corbaServer::floatSeqToVector(configuration, Dim);
+
+            vector3_t com;
+            const DevicePtr_t& robot (problemSolver()->robot ());
+            com = robot->positionCenterOfMass();            
+            dynamic_state_.setFinalcom(com);
         }
         void Problem::calculate() throw(hpp::Error){          
             dyn_optimizer_.initialize(planner_setting_, dynamic_state_, &contact_plan_);
@@ -79,6 +123,22 @@ namespace hpp {
         }
         CORBA::UShort Problem::getNumSeqeunce() throw(hpp::Error){
             return planner_setting_.get(PlannerIntParam_NumTimesteps);
+        }
+        hpp::floatSeq* Problem::getComFromRobot(const hpp::floatSeq& configuration) throw(hpp::Error){
+            std::size_t Dim = (std::size_t)configuration.length();
+            vector_t posture(Dim);
+            posture = hpp::corbaServer::floatSeqToVector(configuration, Dim);
+
+            vector3_t com;
+            const DevicePtr_t& robot (problemSolver()->robot ());
+            com = robot->positionCenterOfMass();            
+
+            hpp::floatSeq* dofArray = new hpp::floatSeq();
+            dofArray->length(3);
+            for (int i=0; i<3; i++)
+                (*dofArray)[i] = com(i);
+
+            return dofArray;         
         }
         hpp::floatSeq* Problem::getResultantBodyDynamics(CORBA::UShort cnt) throw(hpp::Error){
             // time(1), reference com(3), linear(3), angular momentum(3);

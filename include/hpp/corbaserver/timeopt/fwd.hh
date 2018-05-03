@@ -30,6 +30,7 @@ namespace hpp {
     typedef core::Configuration_t Configuration_t;
     typedef core::ConfigurationPtr_t ConfigurationPtr_t;
     typedef model::DevicePtr_t DevicePtr_t;
+    typedef model::JointPtr_t JointPtr_t;
     typedef core::Transform3f Transform3f;
 
     class Server;

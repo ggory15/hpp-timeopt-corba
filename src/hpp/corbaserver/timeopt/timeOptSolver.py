@@ -18,7 +18,8 @@
 
 from hpp.corbaserver.timeopt import Client as WPGClient
 from hpp.corbaserver import Client as BasicClient
-
+import numpy as np
+from math import sqrt
 ## Corba clients to the various servers
 #
 class CorbaClient:
@@ -49,18 +50,36 @@ class TimeOpt (object):
         self.client.timeopt.problem.addContactSequence(id, footstep)
     def calculate(self):
         self.client.timeopt.problem.calculate()
-    def setFianlBodyState(self, com):
-        self.client.timeopt.problem.setFianlBodyState(com)
+    def setFinalBodyState(self, com):
+        self.client.timeopt.problem.setFinalBodyState(com)
+    def setFinalBodyStatfromConfig(self, config):
+        self.client.timeopt.problem.setFinalBodyStatfromConfig(config)    
+    def getEndeffectorTransform(self, limb_name, config):
+        A = self.client.timeopt.problem.getEndeffectorTransform(limb_name, config) 
+        R = np.array ([ [A[0], A[1], A[2] ],
+                        [A[3], A[4], A[5] ],
+                        [A[6], A[7], A[8] ]]);
+        t = np.array([A[9], A[10], A[11]])
+        return (R, t)
     def loadObstacleModel(self, package, filename, prefix, Viewer, meshPackageName=None, guiOnly=False):
         Viewer.loadObstacleModel(package, filename, prefix, meshPackageName, guiOnly)
     def DrawFootStep(self, name, position, Viewer):
         Viewer.client.gui.addBox(name, 0.05, 0.05, 0.01, Viewer.color.blue)
         Viewer.client.gui.applyConfiguration(name, position)
         Viewer.client.gui.refresh()
-    def DrawDesiredContactSequence(self, viewer):
-        for id_num in range(0, 4):
-            for cnt_num in range(0, self.getNumContact()[id_num]):
-                self.DrawFootStep("0_scene_hpp_/" + "foot" + str(id_num) + str(cnt_num), self.getDesiredFootPosture(id_num, cnt_num), viewer)
+    def DrawDesiredContactSequence(self, viewer, id, footstep):
+        for cnt_num in range(0, len(footstep)):
+            A = footstep[cnt_num].tolist()[2:9];
+            A[2] = 0.05;
+            A[3] = 1
+            A[4] = 0
+            A[5] = 0
+            A[6] = 0
+            #A[3] = footstep[cnt_num].tolist()[8];
+            #for i in range(0, 3):
+            #    A[4 + i] = footstep[cnt_num].tolist()[7 - i]
+            self.DrawFootStep("0_scene_hpp_/" + "foot" + str(id) + str(cnt_num), A, viewer)
+
     def getNumSeqeunce(self):
         return self.client.timeopt.problem.getNumSeqeunce()
     
@@ -77,6 +96,42 @@ class TimeOpt (object):
     def UpdateCOMDisplay(self, pos, Viewer):
         Viewer.client.gui.applyConfiguration("0_scene_hpp_/COM", [pos[0], pos[1], pos[2], 1, 0, 0, 0])
         Viewer.client.gui.refresh()
+    def getComFromRobot(self, configure):
+        return self.client.timeopt.problem.getComFromRobot(configure)
+    def rot2quat(self, R):
+        T = R.transpose()
+        den = np.array([1.0 + T[0, 0] - T[1, 1] - T[2, 2],
+                        1.0 - T[0, 0] + T[1, 1] - T[2, 2],
+                        1.0 - T[0, 0] - T[1, 1] + T[2, 2],
+                        1.0 + T[0, 0] + T[1, 1] + T[2, 2]])
+
+        max_idx = np.flatnonzero(den == max(den))[0]
+
+        q = np.zeros(4)
+        q[max_idx] = 0.5 * sqrt(max(den))
+        denom = 4.0 * q[max_idx]
+        if (max_idx == 0):
+            q[1] = (T[1, 0] + T[0, 1]) / denom
+            q[2] = (T[2, 0] + T[0, 2]) / denom
+            q[3] = -(T[2, 1] - T[1, 2]) / denom
+        if (max_idx == 1):
+            q[0] = (T[1, 0] + T[0, 1]) / denom
+            q[2] = (T[2, 1] + T[1, 2]) / denom
+            q[3] = -(T[0, 2] - T[2, 0]) / denom
+        if (max_idx == 2):
+            q[0] = (T[2, 0] + T[0, 2]) / denom
+            q[1] = (T[2, 1] + T[1, 2]) / denom
+            q[3] = -(T[1, 0] - T[0, 1]) / denom
+        if (max_idx == 3):
+            q[0] = -(T[2, 1] - T[1, 2]) / denom
+            q[1] = -(T[0, 2] - T[2, 0]) / denom
+            q[2] = -(T[1, 0] - T[0, 1]) / denom
+        q_res = np.zeros(4)
+        q_res[0] = q[3]
+        q_res[1] = q[0]
+        q_res[2] = q[1]
+        q_res[3] = q[2]
+        return q_res    
 
 
 

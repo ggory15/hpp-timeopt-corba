@@ -68,7 +68,7 @@ solver.addContactSequence(0, foot_rf);
 solver.addContactSequence(1, foot_lf);
 
 '''Set Final state'''
-solver.setFinalBodyState([-0.94, -0.2, 1.4]);
+solver.setFianlBodyState([-0.94, -0.2, 1.4]);
 
 '''Solve'''
 solver.calculate();

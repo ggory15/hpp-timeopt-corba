@@ -33,13 +33,14 @@ module hpp {
     void setInitialLimbState(in string joint_name, in boolean activation, in unsigned short ID, in floatSeq force_ratio) raises (Error);
     void addContactSequence(in unsigned short id, in floatSeqSeq footstep) raises (Error);
     void calculate() raises (Error);
-    void setFianlBodyState(in floatSeq com) raises (Error);
+    void setFinalBodyState(in floatSeq com) raises (Error);
+    void setFinalBodyStatfromConfig(in floatSeq posture) raises (Error);
 
     unsigned short getNumSeqeunce() raises (Error);
     floatSeq getResultantBodyDynamics(in unsigned short cnt) raises (Error);
     floatSeq getResultantLimbDynamics(in unsigned short cnt, in unsigned short id) raises (Error);
-
-            
+    floatSeq getEndeffectorTransform(in string limb_name, in floatSeq configuration) raises (Error);
+    floatSeq getComFromRobot(in floatSeq configuration) raises (Error);        
   }; //interface Problem
   }; // module timeopt
   }; // module corbaserver
